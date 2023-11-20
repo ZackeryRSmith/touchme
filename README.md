@@ -28,7 +28,7 @@ touchId("your reason for requesting the TouchID");
 <br />
 
 ## A 🌸 𝒞𝓊𝓉𝑒 🌸  note
-*Touch Me* **requires**   [Foundation](https://developer.apple.com/documentation/foundation) and [LocalAuthentication](https://developer.apple.com/documentation/localauthentication), if they're not linked Touch Me will not cause compile errors, but it won't prompt the user for their finger.
+*Touch Me* **requires**   [Foundation](https://developer.apple.com/documentation/foundation) and [LocalAuthentication](https://developer.apple.com/documentation/localauthentication), if they're not linked when compiling on MacOS Touch Me will cause compile errors.
 
 ### to make your life eaiser
 You can use Make or CMake to compile your app, many find CMake complex so here is a simple CMake example to use Touch Me on Mac
