@@ -15,13 +15,9 @@ int isAvailable() {
     LAContext *context = [[LAContext alloc] init];
     NSError *error = nil;
 
-    BOOL canEvaluatePolicy = [context
-        canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                    error:&error];
-    if (!canEvaluatePolicy) {
-        // error checking TouchID availability
-        return 0;
-    }
+    BOOL canEvaluatePolicy =
+        [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthentication
+                             error:&error];
 
     if (canEvaluatePolicy) {
         // TouchID is supported on the device
@@ -47,12 +43,10 @@ int touchId(char *reason) {
         __block BOOL success = NO;
         __block BOOL done = NO;
 
-        if ([myContext canEvaluatePolicy:
-                           LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthentication
                                    error:&authError]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-              [myContext evaluatePolicy:
-                             LAPolicyDeviceOwnerAuthenticationWithBiometrics
+              [myContext evaluatePolicy:LAPolicyDeviceOwnerAuthentication
                         localizedReason:myLocalizedReasonString
                                   reply:^(BOOL authSuccess, NSError *error) {
                                     success = authSuccess;
