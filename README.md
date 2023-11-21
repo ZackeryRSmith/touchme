@@ -18,11 +18,13 @@ Touch Me isn't a 1-1 interface and does miss some important functionallity, the 
 
 _Touch Me_ leverages [Objective-C](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html) to create a user interface for the [TouchID API](https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id). While _Touch Me_ sacrifices the full power of pure Objective-C by serving as an interface, it gains the advantage of seamless integration with Touch ID functionality.
 
-_Touch Me_ does require you to place an extern somewhere in your project, this allows you to call the Objective C function.
+_Touch Me_ does require you to place a *few externs* somewhere in your project, this allows you to call the Objective C function.
 ```c
 extern int touchId(char *);
+extern int isAvailable();
 // then you may use it like
-touchId("your reason for requesting the TouchID");
+isAvailable();                                      // true or false return
+touchId("your reason for requesting the TouchID");  // true or false return
 ```
 
 <br />
