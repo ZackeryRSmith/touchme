@@ -1,7 +1,44 @@
+#if defined(__APPLE__) || defined(__MACH__)
 #import <Foundation/Foundation.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+#endif
+
+// poor not all apple devices have TouchID
+int isAvailable() {
+#if defined(__APPLE__) || defined(__MACH__)
+    // dynamic loading to check for frameworks
+    Class laContextClass = NSClassFromString(@"LAContext");
+
+    if (!laContextClass)
+        return 0;
+
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error = nil;
+
+    BOOL canEvaluatePolicy = [context
+        canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                    error:&error];
+    if (!canEvaluatePolicy) {
+        // error checking TouchID availability
+        return 0;
+    }
+
+    if (canEvaluatePolicy) {
+        // TouchID is supported on the device
+        return 1;
+    }
+#endif
+    return 0;
+}
 
 int touchId(char *reason) {
+#if defined(__APPLE__) || defined(__MACH__)
+    // dynamic loading to check for frameworks
+    Class laContextClass = NSClassFromString(@"LAContext");
+
+    if (!laContextClass)
+        return 0;
+
     @autoreleasepool {
         LAContext *myContext = [[LAContext alloc] init];
         NSError *authError = nil;
@@ -30,15 +67,14 @@ int touchId(char *reason) {
             }
         }
 
+        // free memory
+        myContext = nil;
+
         if (success) {
             // user authenticated successfully
             return 1;
-        } else {
-            // user did not authenticate successfully
-            return 0;
         }
     }
-
-    // default false
+#endif
     return 0;
 }
